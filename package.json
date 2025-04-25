@@ -10,15 +10,21 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "@mdi/font": "^7.4.47",
     "graphql": "^16.10.0",
     "graphql-request": "^7.1.2",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
     "sass": "^1.87.0",
-    "vue": "^3.5.13"
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@types/jsdom": "^21.1.7",
+    "@types/lodash.debounce": "^4.0.9",
     "@vitejs/plugin-vue": "^5.2.3",
+    "@vue/apollo-composable": "^4.2.2",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.25.1",

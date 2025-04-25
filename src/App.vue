@@ -1,21 +1,21 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import SearchBar from './components/SearchBar/index.vue'
-
-const searchTerm = ref('')
-
-function onSearch(query: string) {
-  searchTerm.value = query
-}
-</script>
-
 <template>
   <v-app>
-    <v-main>
-      <v-container class="py-8">
-        <SearchBar @search="onSearch" />
-        <p v-if="searchTerm">You searched for: <strong>{{ searchTerm }}</strong></p>
-      </v-container>
+    <!-- TODO: fix the header since it overlaps with the content on scroll -->
+    <v-app-bar app flat color="transparent" elevation="0" class="px-6 pt-2">
+      <v-toolbar-title class="text-h6 font-weight-bold">
+        Anime Explorer
+      </v-toolbar-title>
+
+      <v-spacer />
+
+      <!-- Right-side content placeholder -->
+      <div>
+        <!-- could be icons, avatar, theme toggle, etc. -->
+      </div>
+    </v-app-bar>
+
+    <v-main class="pt-10">
+      <router-view />
     </v-main>
   </v-app>
 </template>
