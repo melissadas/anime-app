@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import { useQuery } from '@vue/apollo-composable'
 import { type Ref, computed, watch } from 'vue'
 
-const SEARCH_ANIME = gql`
+export const SEARCH_ANIME = gql`
   query ($search: String) {
     Page(perPage: 10) {
       media(search: $search, type: ANIME) {
@@ -10,15 +10,8 @@ const SEARCH_ANIME = gql`
         title {
           romaji
         }
-        averageScore
-        description
         coverImage {
           large
-        }
-        startDate {
-          year
-          month
-          day
         }
       }
     }
