@@ -9,17 +9,13 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <v-text-field
-      v-model="searchQuery"
-      label="Start typing to search for anime"
-      @input="emit('search', searchQuery)"
-      prepend-inner-icon="mdi-magnify"
-      clearable
-      outlined
-      hide-details
-      density="comfortable"
-    />
+  <v-text-field v-model="searchQuery" label="Start typing to search for anime" @input="emit('search', searchQuery)"
+    prepend-inner-icon="mdi-magnify" variant="outlined" clearable single-line hide-details density="comfortable" class="search-input" />
 </template>
 
 <style scoped>
+.search-input :deep(.v-field--focused),
+.search-input :deep(.v-field:hover) {
+  --v-theme-primary: #a464cf;
+}
 </style>
