@@ -1,71 +1,96 @@
 <script setup lang="ts">
 import type { Anime } from '../../types/anime'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   anime: Anime
 }>()
-const router = useRouter()
-//const imageLoaded = ref<boolean>(false)
+const imageLoaded = ref(false)
 
-// const handleImageLoad = () => {
-//   imageLoaded.value = true
-// }
-
-const goToDetail = () => {
-  router.push({ name: 'AnimeDetail', params: { id: props.anime.id } })
+const onImageLoad = () => {
+  console.log("image loaded")
+  imageLoaded.value = true
 }
 
-//TODO: move to utils
-const formatDate = (date?: Anime['startDate']) => {
-  if (!date || !date.year) return 'N/A'
-  const { year, month, day } = date
-  return `${day ?? '??'}/${month ?? '??'}/${year}`
+const onImageError = () => {
+  console.log("image load error")
 }
+
+const emit = defineEmits(['click'])
 </script>
 
 <template>
-    <v-card elevation="2" class="h-100 d-flex flex-column">
-      <div class="position-relative" @click="goToDetail" style="cursor: pointer">
-      <!-- <v-skeleton-loader
-        v-if="!imageLoaded"
-        type="image"
-        max-height="300px"
-      /> -->
-
-      <v-img
-        :src="props.anime.coverImage.large"
-        :alt="props.anime.title.romaji"
-        height="300px"
-        cover
-      />
+  <div class="anime-card-wrapper" @click="$emit('click')">
+  <v-card elevation="2" class="anime-card h-100 d-flex flex-column mx-2" @click="$emit('click')">
+    <div class="fade-wrapper">
+      <div class="image-wrapper">
+        <v-img :src="props.anime.coverImage.large" :alt="props.anime.title.romaji" height="300px" cover />
+      </div>
     </div>
+  </v-card>
 
-    <div class="card-header d-flex justify-space-between align-center px-4 pt-3">
-      <h3 class="text-h6 mb-0" style="cursor: pointer" @click="goToDetail">
-        {{ props.anime.title.romaji }}
-      </h3>
-      <div />
-    </div>
-
-      <!-- <v-card-subtitle>
-        Score: {{ anime.averageScore ?? 'N/A' }} |
-        Aired: {{ formatDate(anime.startDate) }}
-      </v-card-subtitle>
-
-      <v-card-text>
-        <div v-html="anime.description?.slice(0, 200) + '...'"></div>
-      </v-card-text> -->
-    </v-card>
+  <div class="anime-title mt-2">
+    {{ props.anime.title.romaji }}
+  </div>
+  </div>
 </template>
 
 <style scoped>
-.opacity-0 {
-  opacity: 0;
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.opacity-100 {
-  opacity: 1;
-  transition: opacity 0.3s ease;
+
+.anime-card-wrapper {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.anime-card {
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.anime-card-wrapper:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.fade-wrapper {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.image-wrapper {
+  position: relative;
+  height: 300px;
+}
+
+.skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.anime-title {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  max-width: 200px;
+  word-wrap: break-word;
+  text-align: left;
 }
 </style>
