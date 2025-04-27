@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
 /* a {
   font-weight: 500;
   color: #646cff;
