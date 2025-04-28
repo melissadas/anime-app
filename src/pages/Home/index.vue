@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import debounce from 'lodash.debounce'
 import SearchBar from '../../components/SearchBar/index.vue'
 import AnimeCard from '../../components/AnimeCard/index.vue'
 import AnimeDetailModal from '../../components/AnimeDetailModal/index.vue'
@@ -20,14 +19,9 @@ const hasStartedTyping = computed(() => searchInput.value.trim().length > 0)
 
 const onSearchInput = (query: string) => {
     searchInput.value = query
-    debouncedSearch(query)
+    searchTerm.value = query
 }
 
-const debouncedSearch = debounce((query: string) => {
-    searchTerm.value = query
-}, 300)
-
-// Watch the router to open modal if URL has /anime/:id
 watch(
     () => route.params.id,
     (id) => {
@@ -68,17 +62,33 @@ const { animeList, loading, error, loadMore } = useSearchAnime(searchTerm)
             </p>
         </v-row>
 
-        <v-row v-if="animeList.length" dense class="my-8 px-16">
-            <v-col v-for="anime in animeList" :key="anime.id" cols="12" sm="4" md="3" lg="2" class="pa-2">
-                <AnimeCard :anime="anime" @click="openAnimeDetail(anime)" />
-            </v-col>
-        </v-row>
+        <!-- Suspense with fallback as Skeleton Loader -->
+        <Suspense>
+            <!-- Fallback content (Skeleton Loader) -->
+            <template #fallback>
+                <v-row dense class="my-8 px-16">
+                    <v-col v-for="n in 8" :key="n" cols="12" sm="4" md="3" lg="2" class="pa-2">
+                        <v-skeleton-loader type="card" class="pa-3" />
+                    </v-col>
+                </v-row>
+            </template>
 
-        <v-row justify="center" v-if="animeList.length && !loading" class="mt-0">
+            <!-- Main content after loading (Anime Cards) -->
+            <template #default>
+                <v-row v-if="animeList.length" dense class="my-8 px-16">
+                    <v-col v-for="anime in animeList" :key="anime.id" cols="12" sm="4" md="3" lg="2" class="pa-2">
+                        <AnimeCard :anime="anime" @click="openAnimeDetail(anime)" />
+                    </v-col>
+                </v-row>
+            </template>
+        </Suspense>
+
+
+        <!-- <v-row justify="center" v-if="animeList.length && !loading" class="mt-0">
             <v-btn class="mt-8" color="outlined" @click="loadMore">
                 See more
             </v-btn>
-        </v-row>
+        </v-row> -->
 
         <v-row justify="center" v-if="loading">
             <v-progress-circular indeterminate color="primary" class="mt-8" />
@@ -88,6 +98,10 @@ const { animeList, loading, error, loadMore } = useSearchAnime(searchTerm)
             <p class="text-subtitle-1 text-center">
                 Oops! Something went wrong. Try searching again.
             </p>
+        </v-row>
+
+        <v-row justify="center" v-if="animeList.length === 0 && !loading && searchInput.length" class="mt-8">
+            <p>No results found. Try a different search.</p>
         </v-row>
 
         <AnimeDetailModal v-if="selectedAnimeId" :anime-id="selectedAnimeId" @close="closeAnimeDetail" />

@@ -1,6 +1,8 @@
-import { gql } from '@apollo/client/core'
-import { useQuery } from '@vue/apollo-composable'
-import { type Ref, computed, watch } from 'vue'
+import { gql } from "@apollo/client/core"
+import { useQuery } from "@vue/apollo-composable"
+import { type Ref, computed, watch } from "vue"
+import debounce from "lodash.debounce"
+import type { Anime } from "../types/anime"
 
 export const SEARCH_ANIME = gql`
   query ($search: String) {
@@ -20,18 +22,29 @@ export const SEARCH_ANIME = gql`
 
 export function useSearchAnime(searchTerm: Ref<string>) {
   const { result, loading, error, refetch } = useQuery(SEARCH_ANIME, () => ({
-    search: searchTerm.value
+    search: searchTerm.value,
   }))
 
-  const animeList = computed(() => result.value?.Page?.media ?? [])
-
-  watch(searchTerm, () => {
+  const debouncedRefetch = debounce(() => {
     refetch()
+  }, 800)
+
+  // Watch for changes in searchTerm and trigger debounced refetch
+  watch(searchTerm, debouncedRefetch)
+
+  const animeList = computed(() => {
+    return (
+      result.value?.Page?.media.filter((anime: Anime) => {
+        return anime.title.romaji
+          .toLowerCase()
+          .includes(searchTerm.value.toLowerCase())
+      }) ?? []
+    )
   })
 
   return {
     animeList,
     loading,
-    error
+    error,
   }
 }
