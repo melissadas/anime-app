@@ -3,6 +3,7 @@ import { useQuery } from '@vue/apollo-composable'
 import { ref, computed, watch } from 'vue'
 import type { Anime } from '../../types/anime'
 import { GET_ANIME_BY_ID } from '../../queries/getAnimeById'
+import { formatDate } from '../../utils/formatDate'
 
 const props = defineProps<{
   animeId: number
@@ -24,16 +25,10 @@ watch(internalOpen, (val) => {
 const handleClose = () => {
   internalOpen.value = false
 }
-
-const formatDate = (date?: Anime['startDate']) => {
-  if (!date || !date.year) return 'N/A'
-  const { year, month, day } = date
-  return `${day ?? '??'}/${month ?? '??'}/${year}`
-}
 </script>
 
 <template>
-  <v-dialog v-model="internalOpen" max-width="800px" min-height="800px" persistent opacity="0.">
+  <v-dialog v-model="internalOpen" max-width="800px" min-height="800px" persistent opacity="0.4">
     <v-card v-if="anime" class="anime-detail-modal">
       <div class="background-image" :style="{ backgroundImage: `url(${anime.coverImage.large})` }">
         <v-btn icon class="close-button" @click="handleClose">
@@ -44,17 +39,11 @@ const formatDate = (date?: Anime['startDate']) => {
 
       <div class="text-section">
         <h2 class="title">{{ anime.title.romaji }}</h2>
-        <p class="subtitle">Score: {{ anime.averageScore ?? 'N/A' }} | Aired: {{ formatDate(anime.startDate) }}</p>
+        <p class="subtitle">Score: {{ anime.averageScore ?? 'N/A' }} | {{ formatDate(anime.startDate) }}</p>
         <v-card-text class="anime-description">
           <div v-html="anime.description || 'No description available.'"></div>
         </v-card-text>
       </div>
-
-
-      <!-- <v-card-actions>
-        <v-spacer />
-        <v-btn text color="primary" @click="handleClose">Close</v-btn>
-      </v-card-actions> -->
     </v-card>
 
     <v-card v-else-if="loading" class="py-8">
@@ -72,7 +61,7 @@ const formatDate = (date?: Anime['startDate']) => {
 .anime-detail-modal {
   overflow: hidden;
   background-color: #181818;
-  min-height: 800px;
+  min-height: 500px;
 }
 
 .background-image {
@@ -112,6 +101,7 @@ const formatDate = (date?: Anime['startDate']) => {
 
 .subtitle {
   font-size: 16px;
+  font-weight: 700;
   opacity: 0.8;
   margin-bottom: 16px;
 }
@@ -120,7 +110,7 @@ const formatDate = (date?: Anime['startDate']) => {
   margin-top: 12px;
   max-height: 250px;
   overflow-y: auto;
-  padding: none;
+  padding: 0;
 }
 
 .close-button {
@@ -130,5 +120,4 @@ const formatDate = (date?: Anime['startDate']) => {
   color: white;
   z-index: 2;
 }
-
 </style>
