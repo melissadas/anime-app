@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, watchEffect } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import SearchBar from '../../components/SearchBar/index.vue'
 import AnimeCard from '../../components/AnimeCard/index.vue'

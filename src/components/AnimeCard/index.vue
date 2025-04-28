@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Anime } from '../../types/anime'
-import { ref } from 'vue'
 
 const props = defineProps<{
   anime: Anime,

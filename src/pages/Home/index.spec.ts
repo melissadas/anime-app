@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils"
 import Home from "./index.vue"
-import { describe, beforeEach, it, expect, vi, type Mock } from "vitest"
+import { describe, beforeEach, it, expect, vi } from "vitest"
 import { useSearchAnime } from "../../queries/useSearchAnime"
 import { useRoute } from "vue-router"
 

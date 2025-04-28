@@ -13,7 +13,7 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const { result, loading, error } = useQuery<{ Media: Anime }>(GET_ANIME_BY_ID, { id: props.animeId })
+const { result, loading } = useQuery<{ Media: Anime }>(GET_ANIME_BY_ID, { id: props.animeId })
 const anime = computed(() => result.value?.Media)
 
 const internalOpen = ref(true)
