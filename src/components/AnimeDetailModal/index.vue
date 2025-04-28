@@ -71,7 +71,7 @@ const handleClose = () => {
 .background-image {
   position: relative;
   width: 100%;
-  height: 450px;
+  min-height: 450px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
