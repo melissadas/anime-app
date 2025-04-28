@@ -3,35 +3,23 @@ import type { Anime } from '../../types/anime'
 import { ref } from 'vue'
 
 const props = defineProps<{
-  anime: Anime
+  anime: Anime,
 }>()
-const imageLoaded = ref(false)
-
-const onImageLoad = () => {
-  console.log("image loaded")
-  imageLoaded.value = true
-}
-
-const onImageError = () => {
-  console.log("image load error")
-}
-
-const emit = defineEmits(['click'])
 </script>
 
 <template>
   <div class="anime-card-wrapper" @click="$emit('click')">
-  <v-card elevation="2" class="anime-card h-100 d-flex flex-column mx-2" @click="$emit('click')">
-    <div class="fade-wrapper">
-      <div class="image-wrapper">
-        <v-img :src="props.anime.coverImage.large" :alt="props.anime.title.romaji" height="300px" cover />
+    <v-card elevation="2" class="anime-card h-100 d-flex flex-column mx-2" @click="$emit('click')">
+      <div class="fade-wrapper">
+        <div class="image-wrapper">
+          <v-img :src="props.anime.coverImage.large" :alt="props.anime.title.romaji" height="300px" cover />
+        </div>
       </div>
-    </div>
-  </v-card>
+    </v-card>
 
-  <div class="anime-title mt-2">
-    {{ props.anime.title.romaji }}
-  </div>
+    <div class="anime-title mt-2">
+      {{ props.anime.title.romaji }}
+    </div>
   </div>
 </template>
 

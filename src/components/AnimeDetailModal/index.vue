@@ -38,8 +38,12 @@ const handleClose = () => {
       </div>
 
       <div class="text-section">
-        <h2 class="title">{{ anime.title.romaji }}</h2>
-        <p class="subtitle">Score: {{ anime.averageScore ?? 'N/A' }} | {{ formatDate(anime.startDate) }}</p>
+        <h2 class="title">{{ anime.title.romaji }}
+          <v-chip color="#a464cf" text-color="white">
+            Score:{{ anime.averageScore ?? 'N/A' }}
+          </v-chip>
+        </h2>
+        <p class="subtitle">{{ formatDate(anime.startDate) }}</p>
         <v-card-text class="anime-description">
           <div v-html="anime.description || 'No description available.'"></div>
         </v-card-text>
