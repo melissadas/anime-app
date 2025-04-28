@@ -4,11 +4,15 @@ import type { Anime } from '../../types/anime'
 const props = defineProps<{
   anime: Anime,
 }>()
+
+const emit = defineEmits<{
+  (e: 'click'): void
+}>()
 </script>
 
 <template>
-  <div class="anime-card-wrapper" @click="$emit('click')">
-    <v-card elevation="2" class="anime-card h-100 d-flex flex-column mx-2" @click="$emit('click')">
+  <div class="anime-card-wrapper d-flex flex-column" @click="emit('click')">
+    <v-card elevation="2" class="anime-card h-100 d-flex flex-column mx-2">
       <div class="fade-wrapper">
         <div class="image-wrapper">
           <v-img :src="props.anime.coverImage.large" :alt="props.anime.title.romaji" height="300px" cover />
@@ -16,13 +20,13 @@ const props = defineProps<{
       </div>
     </v-card>
 
-    <div class="anime-title mt-2">
+    <div class="anime-title mt-2 text-left font-weight-medium">
       {{ props.anime.title.romaji }}
     </div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -37,9 +41,6 @@ const props = defineProps<{
 
 .anime-card-wrapper {
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  /* align-items: center; */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -65,19 +66,10 @@ const props = defineProps<{
   height: 300px;
 }
 
-.skeleton {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-
 .anime-title {
   color: white;
-  font-weight: 600;
   font-size: 1rem;
   max-width: 200px;
   word-wrap: break-word;
-  text-align: left;
 }
 </style>

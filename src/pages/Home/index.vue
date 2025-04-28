@@ -44,6 +44,7 @@ const { animeList, loading, error } = useSearchAnime(searchInput)
 
 <template>
     <v-container class="home-container pt-20" fluid>
+        <!-- Search Bar Section -->
         <div :class="['sticky-search-bar-wrapper', { 'search-active': hasStartedTyping }]">
             <v-row justify="center" align="center" class="mt-2">
                 <v-col cols="12" md="8" lg="6">
@@ -52,37 +53,42 @@ const { animeList, loading, error } = useSearchAnime(searchInput)
             </v-row>
         </div>
 
+        <!-- Search Result Message -->
         <v-row justify="center" class="mt-4" v-if="hasStartedTyping">
             <p class="text-subtitle-1 text-center">
                 Showing results for: <strong>{{ searchInput }}</strong>
             </p>
         </v-row>
 
+        <!-- Anime List Display -->
         <v-row v-if="animeList.length" dense class="my-8 px-16">
             <v-col v-for="anime in animeList" :key="anime.id" cols="12" sm="4" md="3" lg="2" class="pa-2">
                 <AnimeCard :anime="anime" @click="openAnimeDetail(anime)" :data-testid="`anime-card-${anime.id}`" />
             </v-col>
         </v-row>
 
+        <!-- Loading State -->
         <v-row justify="center" v-if="loading">
             <v-progress-circular indeterminate color="primary" class="mt-8" data-testid="loading-spinner" />
         </v-row>
 
+        <!-- Error State -->
         <v-row justify="center" v-if="error">
             <p class="text-subtitle-1 text-center" data-testid="error-message">
                 Oops! Something went wrong. Try searching again.
             </p>
         </v-row>
 
+        <!-- No Results State -->
         <v-row justify="center" v-if="animeList.length === 0 && !loading && searchInput.length" class="mt-8">
             <p data-testid="no-results-message">No results found. Try a different search.</p>
         </v-row>
 
+        <!-- Anime Detail Modal -->
         <AnimeDetailModal v-if="selectedAnimeId" :anime-id="selectedAnimeId" @close="closeAnimeDetail"
             data-testid="anime-detail-modal" />
     </v-container>
 </template>
-
 
 <style scoped>
 .home-container {

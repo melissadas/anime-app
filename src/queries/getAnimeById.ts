@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from "@apollo/client/core"
 
 export const GET_ANIME_BY_ID = gql`
   query ($id: Int) {

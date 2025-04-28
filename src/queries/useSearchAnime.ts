@@ -30,7 +30,13 @@ export function useSearchAnime(searchTerm: Ref<string>) {
   }, 800)
 
   // Watch for changes in searchTerm and trigger debounced refetch
-  watch(searchTerm, debouncedRefetch)
+  watch(searchTerm, (newVal) => {
+    if (newVal.trim() === "") {
+      refetch() // Immediate refetch to reset when input cleared
+    } else {
+      debouncedRefetch()
+    }
+  })
 
   const animeList = computed(() => {
     return (

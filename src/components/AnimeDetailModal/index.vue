@@ -28,35 +28,35 @@ const handleClose = () => {
 </script>
 
 <template>
-  <v-dialog v-model="internalOpen" max-width="800px" min-height="800px" persistent opacity="0.4">
+  <v-dialog v-model="internalOpen" max-width="800px" max-height="80vh" opacity="0.4">
     <v-card v-if="anime" class="anime-detail-modal">
       <div class="background-image" :style="{ backgroundImage: `url(${anime.coverImage.large})` }">
-        <v-btn icon class="close-button" @click="handleClose">
+        <v-btn icon class="close-button position-absolute top-0 right-0 ma-2 text-white" @click="handleClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <div class="overlay-gradient"></div>
       </div>
 
-      <div class="text-section">
-        <h2 class="title">{{ anime.title.romaji }}
+      <div class="text-section pa-6 text-white">
+        <h2 class="text-h5 font-weight-bold mb-2">{{ anime.title.romaji }}
           <v-chip color="#a464cf" text-color="white">
             Score:{{ anime.averageScore ?? 'N/A' }}
           </v-chip>
         </h2>
-        <p class="subtitle">{{ formatDate(anime.startDate) }}</p>
-        <v-card-text class="anime-description">
+        <p class="text-subtitle-2 font-weight-medium mb-4">{{ formatDate(anime.startDate) }}</p>
+        <v-card-text class="anime-description mt-3">
           <div v-html="anime.description || 'No description available.'"></div>
         </v-card-text>
       </div>
     </v-card>
 
-    <v-card v-else-if="loading" class="py-8">
-      <v-progress-linear indeterminate color="primary" />
-    </v-card>
+    <v-progress-linear v-else-if="loading" indeterminate color="#a464cf" />
 
-    <v-card v-else class="py-8 text-center">
+    <v-card v-else class="py-8 text-center d-flex align-center justify-center">
       <p>Anime not found or failed to load.</p>
-      <v-btn text color="primary" @click="handleClose">Back</v-btn>
+      <v-btn icon @click="handleClose" color="#a464cf" class="mt-2">
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
     </v-card>
   </v-dialog>
 </template>
@@ -71,7 +71,7 @@ const handleClose = () => {
 .background-image {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 450px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -93,35 +93,15 @@ const handleClose = () => {
 
 .text-section {
   background-color: #181818;
-  padding: 24px;
-  color: white;
-}
-
-.title {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  font-size: 16px;
-  font-weight: 700;
-  opacity: 0.8;
-  margin-bottom: 16px;
 }
 
 .anime-description {
-  margin-top: 12px;
   max-height: 250px;
   overflow-y: auto;
   padding: 0;
 }
 
 .close-button {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  color: white;
   z-index: 2;
 }
 </style>
