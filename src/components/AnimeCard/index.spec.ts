@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils"
-import AnimeCard from "./index.vue" // Adjust the import path based on your project structure
+import AnimeCard from "./index.vue"
 import { describe, beforeEach, it, expect } from "vitest"
 
 const anime = {

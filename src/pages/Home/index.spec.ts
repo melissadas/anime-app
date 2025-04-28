@@ -53,8 +53,6 @@ describe("Home", () => {
         coverImage: { large: "bleach.jpg" },
       },
     ]
-
-    //routerPushMock = vi.fn()
     ;(useSearchAnime as any).mockReturnValue({
       animeList: animeListMock,
       loading: false,
