@@ -57,10 +57,19 @@ export function useSearchAnime(searchTerm: Ref<string>) {
 
   watch(result, (newVal) => {
     if (Array.isArray(newVal?.Page?.media)) {
+      const allMedia = newVal?.Page?.media ?? []
+
+      // Filter exact title match (case-insensitive)
+      const exactMatch = allMedia.filter((anime: Anime) =>
+        anime.title.romaji
+          .toLowerCase()
+          .includes(searchTerm.value.trim().toLowerCase())
+      )
+
       if (page.value === 1) {
-        animeList.value = [...newVal.Page.media]
+        animeList.value = exactMatch
       } else {
-        animeList.value = [...animeList.value, ...newVal.Page.media]
+        animeList.value = [...animeList.value, ...exactMatch]
       }
     }
   })
