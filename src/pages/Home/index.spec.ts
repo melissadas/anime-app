@@ -115,4 +115,21 @@ describe("Home", () => {
     const animeDetailModal = wrapper.find('[data-testid="anime-detail-modal"]')
     expect(animeDetailModal.exists()).toBe(true)
   })
+
+  it("shows no results message when list is empty", async () => {
+    ;(useSearchAnime as any).mockReturnValueOnce({
+      animeList: [],
+      loading: false,
+      error: null,
+    })
+
+    const wrapper = mount(Home)
+
+    wrapper.vm.searchInput = "no-match"
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.find('[data-testid="no-results-message"]').exists()).toBe(
+      true
+    )
+  })
 })

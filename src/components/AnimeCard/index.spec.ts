@@ -26,7 +26,10 @@ describe("AnimeCard.vue", () => {
     expect(img.attributes("alt")).toBe(anime.title.romaji)
   })
 
-  it("renders anime title correctly", () => {
+  it("renders anime title correctly", async () => {
+    wrapper.vm.isImageLoaded = true
+    await wrapper.vm.$nextTick()
+
     expect(wrapper.text()).toContain(anime.title.romaji)
   })
 

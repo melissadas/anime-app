@@ -1,4 +1,32 @@
 <script setup lang="ts">
+/**
+ * AnimeDetailModal Component
+ *
+ * Displays a modal with detailed information about an anime.
+ *
+ * @component
+ *
+ * @props {number} animeId - The unique ID of the anime to fetch and display.
+ *
+ * @emits close - Triggered when the modal is closed, used to inform the parent to update routing or state.
+ *
+ * @dependencies
+ * - @vue/apollo-composable: For GraphQL queries using Apollo
+ * - vue: Core Vue Composition API utilities (`ref`, `computed`, `watch`)
+ * - GET_ANIME_BY_ID: GraphQL query for fetching anime details by ID
+ * - formatDate: Utility function to format the airing date
+ *
+ * @usage
+ * ```vue
+ * <AnimeDetailModal :anime-id="123" @close="handleModalClose" />
+ * ```
+ *
+ * @features
+ * - Shows cover image as a background
+ * - Displays title, average score, formatted start date, and description
+ * - Close button
+ * - Fallback UI for loading and error states
+ */
 import { useQuery } from '@vue/apollo-composable'
 import { ref, computed, watch } from 'vue'
 import type { Anime } from '../../types/anime'

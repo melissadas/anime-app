@@ -1,4 +1,24 @@
 <script lang="ts" setup>
+/**
+ * SearchBar Component
+ *
+ * A styled input field for searching anime by name.
+ *
+ * @component
+ *
+ * @emits search - Emits the current input value whenever the user types or clears the input.
+ *
+ * @features
+ * - Debounced input via v-model binding (`searchQuery`)
+ * - Clear button that resets input and emits an empty search
+ *
+ * @usage
+ * ```vue
+ * <SearchBar @search="onSearchInput" />
+ * ```
+ * @testid search-bar
+ */
+
 import { ref } from 'vue'
 
 const searchQuery = ref('')
