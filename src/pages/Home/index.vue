@@ -1,4 +1,18 @@
 <script setup lang="ts">
+/**
+ * Home
+ * 
+ * Main search page for browsing anime.
+ * 
+ * Features:
+ * - Debounced search bar
+ * - Anime cards rendered via `AnimeCard`
+ * - Click opens modal with details
+ * 
+ * Uses:
+ * - `useSearchAnime` composable for fetching
+ * - Vue Router for modal routing
+ */
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import SearchBar from '../../components/SearchBar/index.vue'
@@ -36,7 +50,7 @@ const openAnimeDetail = (anime: Anime) => {
 }
 
 const closeAnimeDetail = () => {
-    router.push({ name: 'Home' })
+    router.push({ name: 'Home', params: { id: undefined } })
 }
 
 const { animeList, loading, error, loadMore, hasNextPage } = useSearchAnime(searchInput)

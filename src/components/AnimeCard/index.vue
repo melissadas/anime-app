@@ -1,4 +1,15 @@
 <script setup lang="ts">
+/**
+ * AnimeCard
+ * 
+ * Renders a card displaying anime cover and title.
+ * 
+ * Props:
+ * - anime: Anime - the anime object to display
+ * 
+ * Emits:
+ * - click - when the card is clicked
+ */
 import type { Anime } from '../../types/anime'
 
 const props = defineProps<{
