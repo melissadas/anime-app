@@ -39,7 +39,7 @@ const closeAnimeDetail = () => {
     router.push({ name: 'Home' })
 }
 
-const { animeList, loading, error } = useSearchAnime(searchInput)
+const { animeList, loading, error, loadMore, hasNextPage } = useSearchAnime(searchInput)
 </script>
 
 <template>
@@ -87,6 +87,19 @@ const { animeList, loading, error } = useSearchAnime(searchInput)
         <!-- Anime Detail Modal -->
         <AnimeDetailModal v-if="selectedAnimeId" :anime-id="selectedAnimeId" @close="closeAnimeDetail"
             data-testid="anime-detail-modal" />
+
+        <v-row justify="center" v-if="hasNextPage && !loading" class="mt-4">
+            <v-btn color="#a464cf" @click="loadMore" data-testid="load-more-btn">
+                Load More
+            </v-btn>
+        </v-row>
+
+        <v-row justify="center"
+            v-if="searchInput && searchInput.trim().length > 0 && !hasNextPage && !loading && animeList.length"
+            class="mt-2">
+            <p class="text-caption">No more results to show.</p>
+        </v-row>
+
     </v-container>
 </template>
 
