@@ -10,6 +10,7 @@
  * Emits:
  * - click - when the card is clicked
  */
+import { ref } from 'vue'
 import type { Anime } from '../../types/anime'
 
 const props = defineProps<{
@@ -19,19 +20,26 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'click'): void
 }>()
+
+const isImageLoaded = ref(false)
+
+const handleImageLoad = () => {
+  isImageLoaded.value = true
+}
 </script>
 
 <template>
   <div class="anime-card-wrapper d-flex flex-column" @click="emit('click')">
     <v-card elevation="2" class="anime-card h-100 d-flex flex-column mx-2">
-      <div class="fade-wrapper">
-        <div class="image-wrapper">
-          <v-img :src="props.anime.coverImage.large" :alt="props.anime.title.romaji" height="300px" cover />
-        </div>
+      <div class="image-wrapper">
+        <v-img :src="props.anime.coverImage.large" :alt="props.anime.title.romaji" height="500px" cover
+          @load="handleImageLoad" class="image" />
       </div>
+
+      <v-skeleton-loader v-if="!isImageLoaded" type="image" height="300" class="skeleton-overlay" />
     </v-card>
 
-    <div class="anime-title mt-2 text-left font-weight-medium">
+    <div class="anime-title mt-2 text-left font-weight-medium" v-if="isImageLoaded">
       {{ props.anime.title.romaji }}
     </div>
   </div>
@@ -50,6 +58,8 @@ const emit = defineEmits<{
   }
 }
 
+
+
 .anime-card-wrapper {
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -66,15 +76,25 @@ const emit = defineEmits<{
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
-.fade-wrapper {
+.image-wrapper {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.5s ease forwards;
-}
-
-.image-wrapper {
   position: relative;
   height: 300px;
+}
+
+.image {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.skeleton-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
 }
 
 .anime-title {
